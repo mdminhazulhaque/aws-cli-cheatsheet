@@ -169,7 +169,7 @@ cache.t2.micro  backend-login-vn
 cache.t2.micro  backend-login-sg
 ```
 
-#### List of ElasticCache Replication Groups
+#### List of ElastiCache Replication Groups
 ```bash
 aws elasticache describe-replication-groups | jq -r '.ReplicationGroups[] | .ReplicationGroupId+" "+.NodeGroups[].PrimaryEndpoint.Address'
 backend-login-hk backend-login-hk.6da35.ng.0001.apse1.cache.amazonaws.com
