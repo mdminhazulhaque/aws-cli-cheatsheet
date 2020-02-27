@@ -55,13 +55,6 @@ aws ec2 describe-security-groups --group-ids sg-02a63c67684d8deed | jq -r '.Secu
 212.143.80.102/32  3306
 ```
 
-```
-append to sg
-remove from sg
-add sg
-remove sg
-```
-
 ## API Gateway
 
 #### List of API Gateway IDs and Names
@@ -427,3 +420,4 @@ aws cognito-idp list-users --user-pool-id ap-southeast-1_b6da07d35 | jq -r '.Use
 - [ ] cloudtrail
 - [ ] iam
 - [ ] logs
+- [ ] ec2 sg add/delete/attach/detach
