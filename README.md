@@ -1,3 +1,10 @@
+### Tools Required
+
+* aws https://aws.amazon.com/cli/
+* jq https://stedolan.github.io/jq/
+
+Disclaimer: All Resource, Account, ARN, Hostname etc are generated using [Faker](https://faker.readthedocs.io/en/master). They do not match any real user data.
+
 ## EC2
 
 #### List Instance ID, Type and Name
