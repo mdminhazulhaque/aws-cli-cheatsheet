@@ -161,7 +161,7 @@ aws rds describe-db-cluster-snapshots --db-cluster-snapshot-identifier backend-p
 
 ## ElastiCache
 
-#### List of ElasticCache Machine Type and Name
+#### List of ElastiCache Machine Type and Name
 ```bash
 aws elasticache describe-cache-clusters | jq -r '.CacheClusters[] | .CacheNodeType+" "+.CacheClusterId'
 cache.t2.micro  backend-login-hk
