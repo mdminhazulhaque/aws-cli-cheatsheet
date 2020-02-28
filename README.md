@@ -41,7 +41,7 @@ i-00f11e8e33c971058  t2.nano    garrett.com
 ```
 
 #### List Instances with Public IP Address and Name
-> Tip: You can directly put this to your `/etc/hosts`
+:point_right: Tip: You can directly put this to your `/etc/hosts`
 ```bash
 aws ec2 describe-instances --query 'Reservations[*].Instances[?not_null(PublicIpAddress)]' | jq -r '.[][]|.PublicIpAddress+" "+(.Tags[]|select(.Key=="Name").Value)'
 223.64.72.64    fisher.com
