@@ -295,7 +295,7 @@ arn:aws:sns:ap-southeast-1:autoscale-notifications    lambda  arn:aws:lambda:fun
 
 #### Publish to SNS Topic
 ```bash
-aws sns publish --topic-arn arn:aws:sns:ap-southeast-1:987654321:backend-api-monitoring
+aws sns publish --topic-arn arn:aws:sns:ap-southeast-1:987654321:backend-api-monitoring \
     --message "Panic!!!" \
     --subject "The API is down!!!"
 ```
