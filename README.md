@@ -57,6 +57,11 @@ aws ec2 describe-vpcs | jq -r '.Vpcs[]|.VpcId+" "+(.Tags[]|select(.Key=="Name").
 vpc-0d1c1cf4e980ac593  frontend-vpc  10.0.0.0/16
 vpc-00f11e8e33c971058  backend-vpc   172.31.0.0/16
 ```
+#### List of Subnets for a VPC
+```bash
+TODO
+aws ec2 describe-vpcs | jq -r '.Vpcs[]|.VpcId+" "+(.Tags[]|select(.Key=="Name").Value)+" "+.CidrBlock'
+```
 
 #### List of Security Groups
 ```bash
@@ -75,6 +80,12 @@ sg-02a63c67684d8deed  backend-db
 sg-0dae5d4daa47fe4a2  backend-redis
 ```
 
+#### Edit Security Groups of an Instance
+:point_right: You have to provide existing Security Group IDs as well
+```bash
+aws ec2 modify-instance-attribute --instance-id i-0dae5d4daa47fe4a2 --groups sg-02a63c67684d8deed sg-0dae5d4daa47fe4a2
+```
+
 #### Print Security Group Rules as FromAddress and ToPort
 ```bash
 aws ec2 describe-security-groups --group-ids sg-02a63c67684d8deed | jq -r '.SecurityGroups[].IpPermissions[]|. as $parent|(.IpRanges[].CidrIp+" "+($parent.ToPort|tostring))'
@@ -83,6 +94,91 @@ aws ec2 describe-security-groups --group-ids sg-02a63c67684d8deed | jq -r '.Secu
 168.244.58.160/32  3306
 202.0.149.202/32   3306
 212.143.80.102/32  3306
+```
+
+#### Add Rule to Security Group
+```bash
+aws ec2 authorize-security-group-ingress --group-id sg-02a63c67684d8deed --protocol tcp --port 443 --cidr 35.0.0.1
+```
+
+#### Delete Rule from Security Group
+```bash
+aws ec2 revoke-security-group-ingress --group-id sg-02a63c67684d8deed --protocol tcp --port 443 --cidr 35.0.0.1
+```
+
+#### Edit Rules of Security Group
+:point_right: You have to provide All IP Ranges as well
+```bash
+aws ec2 update-security-group-rule-descriptions-ingress --group-id sg-02a63c67684d8deed --ip-permissions 'ToPort=443,IpProtocol=tcp,IpRanges=[{CidrIp=202.171.186.133/32,Description=Home}]'
+```
+
+#### Delete Security Group
+:point_right: You have to provide All IP Ranges as well
+```bash
+aws ec2 delete-security-group --group-id sg-02a63c67684d8deed
+```
+
+## S3
+
+#### List Buckets
+```bash
+aws s3 ls
+2020-01-28 18:49:50 customer-data-primary
+2020-01-28 18:50:22 customer-data-backup
+2020-01-28 18:50:54 wordpress-cdn
+2020-01-28 18:52:25 backend-artifacts-20200220-deployment
+```
+#### List Files in a Bucket
+```bash
+aws s3 ls wordpress-cdn/wp-content/uploads/2019/10/04/
+2019-10-04 15:02:02     133557 amazing-content.jpg
+2019-10-04 15:02:02       2986 amazing-content-103x50.jpg
+2019-10-04 15:02:02       5640 amazing-content-120x120.jpg
+2019-10-04 15:02:02       7924 amazing-content-150x150.jpg
+```
+
+#### Create Bucket
+```bash
+aws s3 mb s3://my-awesome-new-bucket
+make_bucket: my-awesome-new-bucket
+```
+#### Delete Bucket
+```bash
+aws s3 rb s3://my-awesome-new-bucket --force
+```
+
+#### Download S3 Object to Local
+```bash
+aws s3 cp s3://my-awesome-new-bucket .
+download: ./backup.tar from s3://my-awesome-new-bucket/backup.tar
+```
+
+#### Upload Local File as S3 Object
+```bash
+aws s3 cp backup.tar s3://my-awesome-new-bucket
+upload: ./backup.tar to s3://my-awesome-new-bucket/backup.tar
+```
+
+#### Delete S3 Object
+```bash
+aws s3 rm s3://my-awesome-new-bucket/secret-file.gz .
+delete: s3://my-awesome-new-bucket/secret-file.gz
+```
+
+#### Download Bucket to Local
+```bash
+aws s3 sync s3://my-awesome-new-bucket/ /media/Passport-Ultra/Backup
+```
+
+#### Upload Local Directory to Bucket
+```bash
+aws s3 sync /home/minhaz/Downloads s3://my-awesome-new-bucket/
+```
+
+#### Share S3 Object without Public Access
+```bash
+aws s3 presign s3://my-awesome-new-bucket/business-reports.pdf --expires-in 3600
+https://my-awesome-new-bucket.s3.amazonaws.com/business-reports.pdf?AWSAccessKeyId=AKISUENSAKSIEUAA&Expires=1582876994&Signature=kizOEA93kaIHw7uv25wSFIKLmAx
 ```
 
 ## API Gateway
@@ -442,12 +538,119 @@ aws cognito-idp list-users --user-pool-id ap-southeast-1_b6da07d35 | jq -r '.Use
 8fc1882e-e661-49db-88e6-45d370bc352a +601122334455 cli@aws.com
 ```
 
----
+## IAM User
 
-#### TODO
+#### List of UserId and UserName
+```bash
+aws iam list-users | jq -r '.Users[]|.UserId+" "+.UserName'
+AIDAZBWIOJIQFOLNBXXCVSUQ kaiser
+AIDAZCTWYVXYOKSHVWXPYPLR thornton
+AIDAZUYALCGFQJENBCZFJTVX maldonado
+AIDAZKQAFIGQJWOKKSKRBLGE key
+AIDAZXUDGQVQCEWBFGIJOWWY nelson
+```
 
-- [ ] s3
-- [ ] cloudtrail
-- [ ] iam
-- [ ] logs
-- [ ] ec2 sg add/delete/attach/detach
+#### Get Single User
+```bash
+aws iam get-user --user-name kaiser
+```
+
+#### Add User
+```bash
+aws iam create-user --user-name audit-temp
+```
+
+#### Delete User
+```bash
+aws iam delete-user --user-name audit-temp
+```
+
+#### List Access Keys for User
+```bash
+aws iam list-access-keys --user-name audit-temp | jq -r .AccessKeyMetadata[].AccessKeyId
+AKIABWIOJIQFOLNBXXCVSUQ
+AKIACTWYVXYOKSHVWXPYPLR
+AKIAUYALCGFQJENBCZFJTVX
+```
+
+#### Delete Access Key for User
+```bash
+aws iam delete-access-key --user-name audit-temp --access-key-id AKIABWIOJIQFOLNBXXCVSUQ
+```
+
+#### Activate/Deactivate Access Key for User
+```bash
+aws iam update-access-key --status Inactive --user-name audit-temp --access-key-id AKIABWIOJIQFOLNBXXCVSUQ
+aws iam update-access-key --status Active   --user-name audit-temp --access-key-id AKIABWIOJIQFOLNBXXCVSUQ
+```
+
+#### Generate New Access Key for User
+```bash
+aws iam create-access-key --user-name audit-temp | jq -r '.AccessKey | .AccessKeyId+" "+.SecretAccessKey'
+AKIABWIOJIQFOLNBXXCVSUQ p9ge02ebLX9jobdQKmfikRqCiEw3HBylwHyXq0z
+```
+
+## IAM Group
+
+#### List Groups
+```bash
+aws iam list-groups | jq -r .Groups[].GroupName
+developers
+administrators
+testers
+marketing-ro
+```
+
+#### Add/Delete Groups
+```bash
+aws iam create-group --group-name business-ro
+aws iam delete-group --group-name business-ro
+```
+
+#### List of Policies and ARNs
+```bash
+aws iam list-policies               | jq -r '.Policies[]|.PolicyName+" "+.Arn'
+aws iam list-policies --scope AWS   | jq -r '.Policies[]|.PolicyName+" "+.Arn'
+aws iam list-policies --scope Local | jq -r '.Policies[]|.PolicyName+" "+.Arn'
+```
+
+#### List of User/Group/Roles for a Policy
+```bash
+aws iam list-entities-for-policy --policy-arn arn:aws:iam::987654321:policy/Marketing-ReadOnly
+```
+
+#### List Policies for a Group
+```bash
+aws iam list-attached-group-policies --group-name business-ro
+```
+
+#### Add Policy to a Group
+```
+aws iam attach-group-policy --group-name business-ro --policy-arn arn:aws:iam::aws:policy/DynamoDBReadOnlyAccess
+```
+
+#### Add User to a Group
+```bash
+aws iam add-user-to-group --group-name business-ro --user-name marketing-michael
+```
+
+#### Remove User from a Group
+```bash
+aws iam remove-user-from-group --group-name business-ro --user-name marketing-alice
+```
+
+#### List Users in a Group
+```bash
+aws iam get-group --group-name business-ro
+```
+
+#### List Groups for a User
+```bash
+aws iam list-groups-for-user --user-name qa-bob
+```
+
+#### Attach/Detach Policy to a Group
+```bash
+aws iam detach-group-policy --group-name business-ro --policy-arn arn:aws:iam::aws:policy/DynamoDBFullAccess
+aws iam attach-group-policy --group-name business-ro --policy-arn arn:aws:iam::aws:policy/DynamoDBFullAccess
+```
