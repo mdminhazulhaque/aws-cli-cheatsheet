@@ -5,6 +5,29 @@
 
 Disclaimer: All Resource, Account, ARN, Hostname etc are generated using [Faker](https://faker.readthedocs.io/en/master). They do not match any real user data.
 
+### Pro Tip!
+
+If you have multiple AWS Accounts, you can use bash alias like the following. So you no longer need to pass `--profile` to `aws` tool.
+
+```bash
+alias aws-prod="aws --profile work-prod"
+alias aws-dev="aws --profile work-dev"
+alias aws-self="aws --profile personal"
+alias aws="aws --profile work-dev"
+```
+
+To format `aws` command output into tables, you can pipe output to `column -t`.
+
+```
+# aws ec2 describe-instances | jq ...
+i-0f112d652ecf13dac c3.x2large fisher.com
+i-0b3b5128445a332db t2.nano robinson.com
+
+# aws ec2 describe-instances | jq ... | column -t
+i-0f112d652ecf13dac  c3.x2large  fisher.com
+i-0b3b5128445a332db  t2.nano    robinson.com
+```
+
 ## EC2
 
 #### List Instance ID, Type and Name
@@ -98,7 +121,7 @@ ee86b4cde  /{proxy+}
 #### Find Lambda for API Gateway Resource
 ```bash
 aws apigateway get-integration --rest-api-id ee86b4cde --resource-id 69ef7d4c8 --http-method GET | jq -r '.uri'
-arn:aws:lambda:ap-southeast-1:7072092770:function:backend-api-function-5d4daa47fe4a2:live/invocations
+arn:aws:lambda:ap-southeast-1:987654321:function:backend-api-function-5d4daa47fe4a2:live/invocations
 ```
 
 ## ELB
@@ -112,20 +135,20 @@ backend-lb-6208709163457.ap-southeast-1.elb.amazonaws.com
 #### List of ELB ARNs
 ```bash
 aws elbv2 describe-load-balancers | jq -r '.LoadBalancers[] | .LoadBalancerArn'
-arn:aws:elasticloadbalancing:ap-southeast-1:7072092770:loadbalancer/app/frontend-lb/1220186848339
-arn:aws:elasticloadbalancing:ap-southeast-1:7072092770:loadbalancer/app/backend-lb/6208709163457
+arn:aws:elasticloadbalancing:ap-southeast-1:987654321:loadbalancer/app/frontend-lb/1220186848339
+arn:aws:elasticloadbalancing:ap-southeast-1:987654321:loadbalancer/app/backend-lb/6208709163457
 ```
 
 #### List of ELB Target Group ARNs
 ```bash
 aws elbv2 describe-target-groups | jq -r '.TargetGroups[] | .TargetGroupArn'
-arn:aws:elasticloadbalancing:ap-southeast-1:7072092770:targetgroup/frontend/b6da07d35
-arn:aws:elasticloadbalancing:ap-southeast-1:7072092770:targetgroup/backend/97ad3b13c
+arn:aws:elasticloadbalancing:ap-southeast-1:987654321:targetgroup/frontend/b6da07d35
+arn:aws:elasticloadbalancing:ap-southeast-1:987654321:targetgroup/backend/97ad3b13c
 ```
 
 #### Find Instances for a Target Group
 ```bash
-aws elbv2 describe-target-health --target-group-arn arn:aws:elasticloadbalancing:ap-southeast-1:7072092770:targetgroup/wordpress-ph/88f517d6b5326a26 | jq -r '.TargetHealthDescriptions[] | .Target.Id'
+aws elbv2 describe-target-health --target-group-arn arn:aws:elasticloadbalancing:ap-southeast-1:987654321:targetgroup/wordpress-ph/88f517d6b5326a26 | jq -r '.TargetHealthDescriptions[] | .Target.Id'
 i-0b3b5128445a332db
 i-0d1c1cf4e980ac593
 i-00f11e8e33c971058
@@ -232,7 +255,7 @@ arn:aws:lambda:function:marketing-promo-sqs-function   arn:aws:sqs:promo-input-m
 #### Download Lambda Code
 ```bash
 aws lambda get-function --function-name DynamoToSQS | jq -r .Code.Location
-https://awslambda-ap-se-1-tasks.s3.ap-southeast-1.amazonaws.com/snapshots/7072092770/backend-api-function-1fda0de7-a751-4586-bf64-5601a410c170
+https://awslambda-ap-se-1-tasks.s3.ap-southeast-1.amazonaws.com/snapshots/987654321/backend-api-function-1fda0de7-a751-4586-bf64-5601a410c170
 ```
 
 ## Cloudwatch
@@ -254,10 +277,10 @@ userdata-write     AWS/DynamoDB        OK
 #### List of SNS Topics
 ```bash
 aws sns list-topics | jq -r '.Topics[] | .TopicArn'
-arn:aws:sns:ap-southeast-1:7072092770:backend-api-monitoring
-arn:aws:sns:ap-southeast-1:7072092770:dynamodb-count-check
-arn:aws:sns:ap-southeast-1:7072092770:partner-integration-check
-arn:aws:sns:ap-southeast-1:7072092770:autoscale-notifications
+arn:aws:sns:ap-southeast-1:987654321:backend-api-monitoring
+arn:aws:sns:ap-southeast-1:987654321:dynamodb-count-check
+arn:aws:sns:ap-southeast-1:987654321:partner-integration-check
+arn:aws:sns:ap-southeast-1:987654321:autoscale-notifications
 ```
 
 #### List of SNS Topic and related Subscriptions
@@ -272,7 +295,7 @@ arn:aws:sns:ap-southeast-1:autoscale-notifications    lambda  arn:aws:lambda:fun
 
 #### Publish to SNS Topic
 ```bash
-aws sns publish --topic-arn arn:aws:sns:ap-southeast-1:7072092770:backend-api-monitoring
+aws sns publish --topic-arn arn:aws:sns:ap-southeast-1:987654321:backend-api-monitoring
     --message "Panic!!!" \
     --subject "The API is down!!!"
 ```
@@ -341,19 +364,19 @@ aws dynamodb delete-item --table-name events --key '{"email": {"S": "admin@mdmin
 #### List Queues
 ```bash
 aws sqs list-queues | jq -r '.QueueUrls[]'
-https://ap-southeast-1.queue.amazonaws.com/7072092770/public-events.fifo
-https://ap-southeast-1.queue.amazonaws.com/7072092770/user-signup
+https://ap-southeast-1.queue.amazonaws.com/987654321/public-events.fifo
+https://ap-southeast-1.queue.amazonaws.com/987654321/user-signup
 ```
 
 #### Create Queue
 ```bash
 aws sqs create-queue --queue-name public-events.fifo | jq -r .QueueUrl
-https://ap-southeast-1.queue.amazonaws.com/7072092770/public-events.fifo
+https://ap-southeast-1.queue.amazonaws.com/987654321/public-events.fifo
 ```
 
 #### Send Message
 ```bash
-aws sqs send-message --queue-url https://ap-southeast-1.queue.amazonaws.com/7072092770/public-events.fifo --message-body Hello
+aws sqs send-message --queue-url https://ap-southeast-1.queue.amazonaws.com/987654321/public-events.fifo --message-body Hello
 {
     "MD5OfMessageBody": "37b51d194a7513e45b56f6524f2d51f2",
     "MessageId": "4226398e-bab0-4bee-bf5a-8e7ae18c855a"
@@ -362,23 +385,23 @@ aws sqs send-message --queue-url https://ap-southeast-1.queue.amazonaws.com/7072
 
 #### Receive Message
 ```bash
-aws sqs receive-message --queue-url https://ap-southeast-1.queue.amazonaws.com/7072092770/public-events.fifo | jq -r '.Messages[] | .Body'
+aws sqs receive-message --queue-url https://ap-southeast-1.queue.amazonaws.com/987654321/public-events.fifo | jq -r '.Messages[] | .Body'
 Hello
 ```
 
 #### Delete Message
 ```bash
-aws sqs delete-message --queue-url https://ap-southeast-1.queue.amazonaws.com/7072092770/public-events.fifo --receipt-handle "AQEBpqKLxNb8rIOn9ykSeCkKebNzn0BrEJ3Cg1RS6MwID2t1oYHCnMP06GnuVZGzt7kpWXZ5ieLQ=="
+aws sqs delete-message --queue-url https://ap-southeast-1.queue.amazonaws.com/987654321/public-events.fifo --receipt-handle "AQEBpqKLxNb8rIOn9ykSeCkKebNzn0BrEJ3Cg1RS6MwID2t1oYHCnMP06GnuVZGzt7kpWXZ5ieLQ=="
 ```
 
 #### Purge Queue
 ```bash
-aws sqs purge-queue --queue-url https://ap-southeast-1.queue.amazonaws.com/7072092770/public-events.fifo
+aws sqs purge-queue --queue-url https://ap-southeast-1.queue.amazonaws.com/987654321/public-events.fifo
 ```
 
 #### Delete Queue
 ```bash
-aws sqs delete-queue --queue-url https://ap-southeast-1.queue.amazonaws.com/7072092770/public-events.fifo
+aws sqs delete-queue --queue-url https://ap-southeast-1.queue.amazonaws.com/987654321/public-events.fifo
 ```
 
 ## CloudFront
