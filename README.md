@@ -1,13 +1,13 @@
-### Tools Required
+### :wrench: Tools Required
 
 * aws https://aws.amazon.com/cli/
 * jq https://stedolan.github.io/jq/
 
-Disclaimer: All Resource, Account, ARN, Hostname etc are generated using [Faker](https://faker.readthedocs.io/en/master). They do not match any real user data.
+:warning: Disclaimer: All Resource, Account, ARN, Hostname etc are generated using [Faker](https://faker.readthedocs.io/en/master). They do not match any real user data.
 
-### Pro Tip!
+### :information_source: Pro Tip!
 
-If you have multiple AWS Accounts, you can use bash alias like the following. So you no longer need to pass `--profile` to `aws` tool.
+:point_right: If you have multiple AWS Accounts, you can use bash alias like the following. So you no longer need to pass `--profile` to `aws` tool.
 
 ```bash
 alias aws-prod="aws --profile work-prod"
@@ -16,7 +16,7 @@ alias aws-self="aws --profile personal"
 alias aws="aws --profile work-dev"
 ```
 
-To format `aws` command output into tables, you can pipe output to `column -t`.
+:point_right: To format `aws` command output into tables, you can pipe output to `column -t`.
 
 ```
 # aws ec2 describe-instances | jq ...
