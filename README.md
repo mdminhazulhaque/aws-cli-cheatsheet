@@ -129,7 +129,7 @@ i-0b3b5128445a332db t2.nano robinson.com
 
 # aws ec2 describe-instances | jq ... | column -t
 i-0f112d652ecf13dac  c3.x2large  fisher.com
-i-0b3b5128445a332db  t2.nano    robinson.com
+i-0b3b5128445a332db  t2.nano     robinson.com
 ```
 
 ## EC2
@@ -163,8 +163,11 @@ vpc-00f11e8e33c971058  backend-vpc   172.31.0.0/16
 ```
 #### List of Subnets for a VPC
 ```bash
-TODO
-aws ec2 describe-vpcs | jq -r '.Vpcs[]|.VpcId+" "+(.Tags[]|select(.Key=="Name").Value)+" "+.CidrBlock'
+aws ec2 describe-subnets --filter Name=vpc-id,Values=vpc-0d1c1cf4e980ac593 | jq -r '.Subnets[]|.SubnetId+" "+.CidrBlock+" "+(.Tags[]|select(.Key=="Name").Value)'
+subnet-0dae5d4daa47fe4a2  10.0.128.0/20  Public Subnet 1
+subnet-0641a25faccb01f0f  10.0.32.0/19   Private Subnet 2
+subnet-09fb8038641f1f36f  10.0.0.0/19    Private Subnet 1
+subnet-02a63c67684d8deed  10.0.144.0/20  Public Subnet 2
 ```
 
 #### List of Security Groups
