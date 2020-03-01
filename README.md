@@ -217,7 +217,6 @@ aws ec2 update-security-group-rule-descriptions-ingress --group-id sg-02a63c6768
 ```
 
 #### Delete Security Group
-:point_right: You have to provide All IP Ranges as well
 ```bash
 aws ec2 delete-security-group --group-id sg-02a63c67684d8deed
 ```
