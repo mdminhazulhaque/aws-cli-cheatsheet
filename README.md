@@ -515,10 +515,10 @@ events
 ```
 
 #### Get All Items from a Table
+:exclamation: This command will stream ALL items untill SIGINT is sent
 ```bash
 aws dynamodb scan --table-name events 
 ```
-> Warning! This command will stream ALL items untill SIGINT is sent
 
 #### Get Item Count from a Table
 ```bash
