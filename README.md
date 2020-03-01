@@ -5,7 +5,7 @@
 
 :warning: Disclaimer: All Resource, Account, ARN, Hostname etc are generated using [Faker](https://faker.readthedocs.io/en/master). They do not match any real user data.
 
-### Table of Contents
+### :loudspeaker: Table of Contents
 
 * [EC2](#ec2)
     * [List Instance ID, Type and Name](#list-instance-id-type-and-name)
