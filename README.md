@@ -617,6 +617,18 @@ db64e7e9b3cc22.cloudfront.net  frontend-prod-sg.s3.amazonaws.com
 d5e3221cf8b921.cloudfront.net  cdn.mdminhazulhaque.io
 ```
 
+#### Create Cache Invalidation
+```bash
+aws cloudfront create-invalidation --distribution-id D12B09E8A0A996  --path /blog/\* /blog/assets/\* | jq -r '.Invalidation.Id'
+IALJ5AL93ZD79
+```
+
+#### Check Cache Invalidation Status
+```bash
+aws cloudfront get-invalidation --distribution-id D12B09E8A0A996 --id IALJ5AL93ZD79 | jq -r '.Invalidation.Status'
+Completed
+```
+
 ## Amplify
 
 #### List of Amplify Apps and Source Repository
