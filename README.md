@@ -75,6 +75,7 @@
 - [SQS](#sqs)
     + [List Queues](#list-queues)
     + [Create Queue](#create-queue)
+    + [Count Messages in Queue](#count-messages-in-queue)
     + [Send Message](#send-message)
     + [Receive Message](#receive-message)
     + [Delete Message](#delete-message)
@@ -576,6 +577,12 @@ https://ap-southeast-1.queue.amazonaws.com/987654321/user-signup
 ```bash
 aws sqs create-queue --queue-name public-events.fifo | jq -r .QueueUrl
 https://ap-southeast-1.queue.amazonaws.com/987654321/public-events.fifo
+```
+
+#### Count Messages in Queue
+```bash
+aws sqs get-queue-attributes --queue-url https://ap-southeast-1.queue.amazonaws.com/987654321/public-events.fifo | jq -r '.Attributes | .QueueArn + " " + .ApproximateNumberOfMessages'
+arn:aws:sqs:ap-southeast-1:987654321:events.fifo 42
 ```
 
 #### Send Message
