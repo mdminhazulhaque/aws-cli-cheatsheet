@@ -8,7 +8,7 @@
 ### :loudspeaker: Table of Contents
 
 - [EC2](#ec2)
-    + [List Instance ID, Type and Name](#list-instance-id--type-and-name)
+    + [List Instance ID, Type and Name](#list-instance-id-type-and-name)
     + [List Instances with Public IP Address and Name](#list-instances-with-public-ip-address-and-name)
     + [List of VPCs and CIDR IP Block](#list-of-vpcs-and-cidr-ip-block)
     + [List of Subnets for a VPC](#list-of-subnets-for-a-vpc)
@@ -53,14 +53,19 @@
     + [List of ElastiCache Snapshots](#list-of-elasticache-snapshots)
     + [Create ElastiCache Snapshot](#create-elasticache-snapshot)
     + [Delete ElastiCache Snapshot](#delete-elasticache-snapshot)
-    + [Scale Up/Down ElastiCache Replica](#scale-up-down-elasticache-replica)
+    + [Scale Up/Down ElastiCache Replica](#scale-updown-elasticache-replica)
 - [Lambda](#lambda)
-    + [List of Lambda Functions, Runtime and Memory](#list-of-lambda-functions--runtime-and-memory)
+    + [List of Lambda Functions, Runtime and Memory](#list-of-lambda-functions-runtime-and-memory)
     + [List of Lambda Layers](#list-of-lambda-layers)
     + [List of Source Event for Lambda](#list-of-source-event-for-lambda)
     + [Download Lambda Code](#download-lambda-code)
 - [Cloudwatch](#cloudwatch)
     + [List of CloudWatch Alarms and Status](#list-of-cloudwatch-alarms-and-status)
+    + [Create Alarm for EC2 High CPUUtilization](#create-alarm-for-ec2-high-cpuutilization)
+    + [Create Alarm for EC2 High StatusCheckFailed_Instance](#create-alarm-for-ec2-high-statuscheckfailed_instance)
+- [Route53](#route53)
+    + [List Domains](#list-domains)
+    + [List Records for a Domain (Zone)](#list-records-for-a-domain-zone)
 - [SNS](#sns)
     + [List of SNS Topics](#list-of-sns-topics)
     + [List of SNS Topic and related Subscriptions](#list-of-sns-topic-and-related-subscriptions)
@@ -97,20 +102,20 @@
     + [Delete User](#delete-user)
     + [List Access Keys for User](#list-access-keys-for-user)
     + [Delete Access Key for User](#delete-access-key-for-user)
-    + [Activate/Deactivate Access Key for User](#activate-deactivate-access-key-for-user)
+    + [Activate/Deactivate Access Key for User](#activatedeactivate-access-key-for-user)
     + [Generate New Access Key for User](#generate-new-access-key-for-user)
 - [IAM Group](#iam-group)
     + [List Groups](#list-groups)
-    + [Add/Delete Groups](#add-delete-groups)
+    + [Add/Delete Groups](#adddelete-groups)
     + [List of Policies and ARNs](#list-of-policies-and-arns)
-    + [List of User/Group/Roles for a Policy](#list-of-user-group-roles-for-a-policy)
+    + [List of User/Group/Roles for a Policy](#list-of-usergrouproles-for-a-policy)
     + [List Policies for a Group](#list-policies-for-a-group)
     + [Add Policy to a Group](#add-policy-to-a-group)
     + [Add User to a Group](#add-user-to-a-group)
     + [Remove User from a Group](#remove-user-from-a-group)
     + [List Users in a Group](#list-users-in-a-group)
     + [List Groups for a User](#list-groups-for-a-user)
-    + [Attach/Detach Policy to a Group](#attach-detach-policy-to-a-group)
+    + [Attach/Detach Policy to a Group](#attachdetach-policy-to-a-group)
 
 ### :information_source: Pro Tip!
 
@@ -475,6 +480,40 @@ partner-vn         AWS/ECS             ALARM
 partner-sg         AWS/ECS             ALARM
 userdata-read      AWS/DynamoDB        OK
 userdata-write     AWS/DynamoDB        OK
+```
+
+#### Create Alarm for EC2 High CPUUtilization
+
+```bash
+aws cloudwatch put-metric-alarm --alarm-name high-cpu-usage --alarm-description "Alarm when CPU exceeds 70 percent" --metric-name CPUUtilization --namespace AWS/EC2 --statistic Average --period 300 --threshold 70 --comparison-operator GreaterThanThreshold  --dimensions "Name=InstanceId,Value=i-123456789" --evaluation-periods 2 --alarm-actions arn:aws:sns:ap-southeast-1:987654321:System-Alerts --unit Percent
+```
+
+#### Create Alarm for EC2 High StatusCheckFailed_Instance
+
+```bash
+aws cloudwatch put-metric-alarm --alarm-name EC2-StatusCheckFailed-AppServer --alarm-description "EC2 StatusCheckFailed for AppServer" --metric-name StatusCheckFailed_Instance --namespace AWS/EC2 --statistic Average --period 60 --threshold 0 --comparison-operator GreaterThanThreshold  --dimensions "Name=InstanceId,Value=i-123456789" --evaluation-periods 3 --alarm-actions arn:aws:sns:ap-southeast-1:987654321:System-Alerts --unit Count
+```
+
+## Route53
+
+#### List Domains
+
+```bash
+aws route53 list-hosted-zones | jq -r '.HostedZones[]|.Id+" "+.Name'
+/hostedzone/ZEB1PAH4U mysite.com.
+/hostedzone/ZQUOHGH3G yoursite.com.
+/hostedzone/ZEADEA0CO staywith.us.
+```
+
+#### List Records for a Domain (Zone)
+
+```bash
+aws route53 list-resource-record-sets --hosted-zone-id /hostedzone/ZEB1PAH4U | jq -r '.ResourceRecordSets[]| if (.AliasTarget!=null) then .Type+" "+.Name+" "+.AliasTarget.DNSName else .Type+" "+.Name+" "+.ResourceRecords[].Value end'
+A      mysite.com.              dualstack.mysite-lb-967522168.ap-southeast-1.elb.amazonaws.com.
+A      mysite.com.              11.22.33.44
+TXT    _amazonses.mysite.com.   6c6d761371f0480bbe60de0df275b550
+A      test.mysite.com.         55.66.77.88
+CNAME  www.mysite.com.          mysite.com
 ```
 
 ## SNS
