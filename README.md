@@ -213,12 +213,12 @@ aws ec2 describe-security-groups --group-ids sg-02a63c67684d8deed | jq -r '.Secu
 
 #### Add Rule to Security Group
 ```bash
-aws ec2 authorize-security-group-ingress --group-id sg-02a63c67684d8deed --protocol tcp --port 443 --cidr 35.0.0.1
+aws ec2 authorize-security-group-ingress --group-id sg-02a63c67684d8deed --protocol tcp --port 443 --cidr 35.0.0.1/24
 ```
 
 #### Delete Rule from Security Group
 ```bash
-aws ec2 revoke-security-group-ingress --group-id sg-02a63c67684d8deed --protocol tcp --port 443 --cidr 35.0.0.1
+aws ec2 revoke-security-group-ingress --group-id sg-02a63c67684d8deed --protocol tcp --port 443 --cidr 35.0.0.1/24
 ```
 
 #### Edit Rules of Security Group
@@ -275,7 +275,7 @@ upload: ./backup.tar to s3://my-awesome-new-bucket/backup.tar
 
 #### Delete S3 Object
 ```bash
-aws s3 rm s3://my-awesome-new-bucket/secret-file.gz .
+aws s3 rm s3://my-awesome-new-bucket/secret-file.gz
 delete: s3://my-awesome-new-bucket/secret-file.gz
 ```
 
