@@ -95,6 +95,9 @@
 - [Cognito](#cognito)
     + [List of User Pool IDs and Names](#list-of-user-pool-ids-and-names)
     + [List of Phone and Email of All Users](#list-of-phone-and-email-of-all-users)
+- [EKS](#eks)
+    + [List of Clusters](#list-of-clusters)
+    + [Generate KUBECONFIG for Cluster](#generate-kubeconfig-for-cluster)
 - [IAM User](#iam-user)
     + [List of UserId and UserName](#list-of-userid-and-username)
     + [Get Single User](#get-single-user)
@@ -702,6 +705,22 @@ aws cognito-idp list-users --user-pool-id ap-southeast-1_b6da07d35 | jq -r '.Use
 585fb96e-525c-4f9b-9d41-865d2dffde9b +601122334455 admin@mdminhazulhaque.io
 71f2778c-8e21-4775-94dc-e363c77d1ae1 +601122334455 foo@bar.com
 8fc1882e-e661-49db-88e6-45d370bc352a +601122334455 cli@aws.com
+```
+
+## EKS
+
+#### List of Clusters
+```bash
+aws eks list-clusters | jq -r .clusters[]
+devtest
+mobileapi-prod
+usermanagement-prod
+```
+
+#### Generate KUBECONFIG for Cluster
+```bash
+aws eks update-kubeconfig --name devtest
+Updated context arn:aws:eks:ap-southeast-1:987654321:cluster/devtest in /home/mdminhazulhaque/.kube/config
 ```
 
 ## IAM User
