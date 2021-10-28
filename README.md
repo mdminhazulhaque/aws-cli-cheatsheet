@@ -61,6 +61,7 @@
     + [Download Lambda Code](#download-lambda-code)
 - [Cloudwatch](#cloudwatch)
     + [List all Cloudwatch Log Groups](#list-all-cloudwatch-log-groups)
+    + [List all CloudWatch Log Streams for a Log Group](#list-all-cloudwatch-log-streams-for-a-log-group)
     + [List of CloudWatch Alarms and Status](#list-of-cloudwatch-alarms-and-status)
     + [Create Alarm for EC2 High CPUUtilization](#create-alarm-for-ec2-high-cpuutilization)
     + [Create Alarm for EC2 High StatusCheckFailed_Instance](#create-alarm-for-ec2-high-statuscheckfailed_instance)
@@ -489,6 +490,14 @@ aws logs describe-log-groups|jq -r '.logGroups[]| .logGroupName'| grep build
 /aws/lambda/customer-staging-imagebuild-AWS679f53fac002430cb0da5-YzvzZrZW171T
 /aws/lambda/customer-staging-imagebuild-BucketNotificationsHandl-LRdeboyL709m
 /aws/lambda/customer-staging-imagebuild-CustomCDKBucketDeploymen-vOuoxVeSLPaw
+```
+
+#### List all CloudWatch Log Streams for a Log Group
+```bash
+aws logs describe-log-streams --log-group-name /aws/imagebuilder/mt44interactive-Prodvault-ASG | jq -r '.logStreams[] | .logStr
+eamName'
+1.0.99/1
+1.0.99/2
 ```
 
 #### List of CloudWatch Alarms and Status
