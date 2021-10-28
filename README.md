@@ -60,6 +60,7 @@
     + [List of Source Event for Lambda](#list-of-source-event-for-lambda)
     + [Download Lambda Code](#download-lambda-code)
 - [Cloudwatch](#cloudwatch)
+    + [List all Cloudwatch Log Groups](#list-all-cloudwatch-log-groups)
     + [List of CloudWatch Alarms and Status](#list-of-cloudwatch-alarms-and-status)
     + [Create Alarm for EC2 High CPUUtilization](#create-alarm-for-ec2-high-cpuutilization)
     + [Create Alarm for EC2 High StatusCheckFailed_Instance](#create-alarm-for-ec2-high-statuscheckfailed_instance)
@@ -473,6 +474,23 @@ https://awslambda-ap-se-1-tasks.s3.ap-southeast-1.amazonaws.com/snapshots/987654
 
 ## Cloudwatch
 
+#### List all Cloudwatch Log Groups
+```bash
+aws logs describe-log-groups|jq -r '.logGroups[]| .logGroupName'| grep build
+/aws/imagebuilder/customercdk-Prod-ApacheASG
+/aws/imagebuilder/customercdk-Prod-NginxASG
+/aws/imagebuilder/customercdk-Staging-ApacheASG
+/aws/imagebuilder/customercdk-Staging-NginxASG
+/aws/lambda/customer-prod-imagebuilder-AWS679f53fac002430cb0da5b-0MpXG3LUrjX5
+/aws/lambda/customer-prod-imagebuilder-BucketNotificationsHandle-O7vsE3mroumB
+/aws/lambda/customer-prod-imagebuilder-CustomCDKBucketDeployment-VBpphTfLWKiq
+/aws/lambda/customer-prod-imagebuilder-CustomS3AutoDeleteObjects-2lbxzotzbwXN
+/aws/lambda/customer-prod-imagebuilder-LogRetentionaae0aa3c5b4d4-ee3RrvwRfbmA
+/aws/lambda/customer-staging-imagebuild-AWS679f53fac002430cb0da5-YzvzZrZW171T
+/aws/lambda/customer-staging-imagebuild-BucketNotificationsHandl-LRdeboyL709m
+/aws/lambda/customer-staging-imagebuild-CustomCDKBucketDeploymen-vOuoxVeSLPaw
+```
+
 #### List of CloudWatch Alarms and Status
 ```bash
 aws cloudwatch describe-alarms | jq -r '.MetricAlarms[] | .AlarmName+" "+.Namespace+" "+.StateValue'
@@ -511,7 +529,7 @@ aws route53 list-hosted-zones | jq -r '.HostedZones[]|.Id+" "+.Name'
 #### List Records for a Domain (Zone)
 
 ```bash
-aws route53 list-resource-record-sets --hosted-zone-id /hostedzone/ZEB1PAH4U | jq -r '.ResourceRecordSets[]| if (.AliasTarget!=null) then .Type+" "+.Name+" "+.AliasTarget.DNSName else .Type+" "+.Name+" "+.ResourceRecords[].Value end'
+aws route53 list-resource-record-sets --hosted-zone-id /hostedzone/Z08242601YGXFZ5Z94BU0 | jq -r '.ResourceRecordSets[]| if (.AliasTarget!=null) then .Type+" "+.Name+" "+.AliasTarget.DNSName else .Type+" "+.Name+" "+.ResourceRecords[].Value end'
 A      mysite.com.              dualstack.mysite-lb-967522168.ap-southeast-1.elb.amazonaws.com.
 A      mysite.com.              11.22.33.44
 TXT    _amazonses.mysite.com.   6c6d761371f0480bbe60de0df275b550
