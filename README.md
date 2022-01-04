@@ -8,7 +8,7 @@
 ### :loudspeaker: Table of Contents
 
 - [EC2](#ec2)
-    + [List Instance ID, Type and Name](#list-instance-id-type-and-name)
+    + [List Instance ID, Type and Name](#list-instance-id--type-and-name)
     + [List Instances with Public IP Address and Name](#list-instances-with-public-ip-address-and-name)
     + [List of VPCs and CIDR IP Block](#list-of-vpcs-and-cidr-ip-block)
     + [List of Subnets for a VPC](#list-of-subnets-for-a-vpc)
@@ -53,19 +53,19 @@
     + [List of ElastiCache Snapshots](#list-of-elasticache-snapshots)
     + [Create ElastiCache Snapshot](#create-elasticache-snapshot)
     + [Delete ElastiCache Snapshot](#delete-elasticache-snapshot)
-    + [Scale Up/Down ElastiCache Replica](#scale-updown-elasticache-replica)
+    + [Scale Up/Down ElastiCache Replica](#scale-up-down-elasticache-replica)
 - [Lambda](#lambda)
-    + [List of Lambda Functions, Runtime and Memory](#list-of-lambda-functions-runtime-and-memory)
+    + [List of Lambda Functions, Runtime and Memory](#list-of-lambda-functions--runtime-and-memory)
     + [List of Lambda Layers](#list-of-lambda-layers)
     + [List of Source Event for Lambda](#list-of-source-event-for-lambda)
     + [Download Lambda Code](#download-lambda-code)
 - [Cloudwatch](#cloudwatch)
     + [List of CloudWatch Alarms and Status](#list-of-cloudwatch-alarms-and-status)
     + [Create Alarm for EC2 High CPUUtilization](#create-alarm-for-ec2-high-cpuutilization)
-    + [Create Alarm for EC2 High StatusCheckFailed_Instance](#create-alarm-for-ec2-high-statuscheckfailed_instance)
+    + [Create Alarm for EC2 High StatusCheckFailed_Instance](#create-alarm-for-ec2-high-statuscheckfailed-instance)
 - [Route53](#route53)
     + [List Domains](#list-domains)
-    + [List Records for a Domain (Zone)](#list-records-for-a-domain-zone)
+    + [List Records for a Domain (Zone)](#list-records-for-a-domain--zone-)
 - [SNS](#sns)
     + [List of SNS Topics](#list-of-sns-topics)
     + [List of SNS Topic and related Subscriptions](#list-of-sns-topic-and-related-subscriptions)
@@ -95,6 +95,11 @@
 - [Cognito](#cognito)
     + [List of User Pool IDs and Names](#list-of-user-pool-ids-and-names)
     + [List of Phone and Email of All Users](#list-of-phone-and-email-of-all-users)
+- [EFS](#efs)
+    + [List of Filesystems](#list-of-filesystems)
+- [ECR](#ecr)
+    + [List of Repositories](#list-of-repositories)
+    + [List Tags under a Repository](#list-tags-under-a-repository)
 - [EKS](#eks)
     + [List of Clusters](#list-of-clusters)
     + [Generate KUBECONFIG for Cluster](#generate-kubeconfig-for-cluster)
@@ -105,20 +110,20 @@
     + [Delete User](#delete-user)
     + [List Access Keys for User](#list-access-keys-for-user)
     + [Delete Access Key for User](#delete-access-key-for-user)
-    + [Activate/Deactivate Access Key for User](#activatedeactivate-access-key-for-user)
+    + [Activate/Deactivate Access Key for User](#activate-deactivate-access-key-for-user)
     + [Generate New Access Key for User](#generate-new-access-key-for-user)
 - [IAM Group](#iam-group)
     + [List Groups](#list-groups)
-    + [Add/Delete Groups](#adddelete-groups)
+    + [Add/Delete Groups](#add-delete-groups)
     + [List of Policies and ARNs](#list-of-policies-and-arns)
-    + [List of User/Group/Roles for a Policy](#list-of-usergrouproles-for-a-policy)
+    + [List of User/Group/Roles for a Policy](#list-of-user-group-roles-for-a-policy)
     + [List Policies for a Group](#list-policies-for-a-group)
     + [Add Policy to a Group](#add-policy-to-a-group)
     + [Add User to a Group](#add-user-to-a-group)
     + [Remove User from a Group](#remove-user-from-a-group)
     + [List Users in a Group](#list-users-in-a-group)
     + [List Groups for a User](#list-groups-for-a-user)
-    + [Attach/Detach Policy to a Group](#attachdetach-policy-to-a-group)
+    + [Attach/Detach Policy to a Group](#attach-detach-policy-to-a-group)
 
 ### :information_source: Pro Tip!
 
@@ -705,6 +710,32 @@ aws cognito-idp list-users --user-pool-id ap-southeast-1_b6da07d35 | jq -r '.Use
 585fb96e-525c-4f9b-9d41-865d2dffde9b +601122334455 admin@mdminhazulhaque.io
 71f2778c-8e21-4775-94dc-e363c77d1ae1 +601122334455 foo@bar.com
 8fc1882e-e661-49db-88e6-45d370bc352a +601122334455 cli@aws.com
+```
+
+## EFS
+
+#### List of Filesystems
+```bash
+aws efs describe-file-systems | jq -r '.FileSystems[] | .FileSystemId + " " + .Name'
+fs-1894c355 production-images
+fs-964dc315 production-docs
+fs-257dc779 production-export
+```
+
+## ECR
+
+#### List of Repositories
+```bash
+aws ecr describe-repositories | jq -r '.repositories[] | .repositoryName'
+app
+db
+```
+
+#### List Tags under a Repository
+```bash
+aws ecr list-images --repository scarfaceadmin | jq -r '.imageIds[] | .imageTag'
+3ccc122f
+3ccc122f
 ```
 
 ## EKS
