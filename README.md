@@ -42,7 +42,7 @@
     + [Find Lambda for API Gateway Resource](#find-lambda-for-api-gateway-resource)
 - [ELB](#elb)
     + [Create ALB](#create-alb)
-    + [Create Target Group forwarding to port HTTP/8000 of an EC2](#create-target-group-forwarding-to-port-http-8000-of-an-ec2)
+    + [Create Target Group forwarding to port HTTP/8000 of an EC2](#create-target-group-forwarding-to-port-http8000-of-an-ec2)
     + [Create Listener and Bind Target Group](#create-listener-and-bind-target-group)
     + [Create HTTPS Listener with Host Based Rule](#create-https-listener-with-host-based-rule)
     + [List of LoadBalancer Hostnames](#list-of-loadbalancer-hostnames)
