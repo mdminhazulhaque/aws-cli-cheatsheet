@@ -10,6 +10,7 @@
 - [EC2](#ec2)
     + [List Instance ID, Type and Name](#list-instance-id--type-and-name)
     + [List Instances with Public IP Address and Name](#list-instances-with-public-ip-address-and-name)
+    + [List Instances with Tag](#list-instances-with-tag)
     + [List of VPCs and CIDR IP Block](#list-of-vpcs-and-cidr-ip-block)
     + [List of Subnets for a VPC](#list-of-subnets-for-a-vpc)
     + [List of Security Groups](#list-of-security-groups)
@@ -20,6 +21,8 @@
     + [Delete Rule from Security Group](#delete-rule-from-security-group)
     + [Edit Rules of Security Group](#edit-rules-of-security-group)
     + [Delete Security Group](#delete-security-group)
+- [ACM](#acm)
+    + [List Certificate ARNs and DomainName](#list-certificate-arns-and-domainname)
 - [S3](#s3)
     + [List Buckets](#list-buckets)
     + [List Files in a Bucket](#list-files-in-a-bucket)
@@ -38,9 +41,13 @@
     + [List of Resources for API Gateway](#list-of-resources-for-api-gateway)
     + [Find Lambda for API Gateway Resource](#find-lambda-for-api-gateway-resource)
 - [ELB](#elb)
-    + [List of ELB Hostnames](#list-of-elb-hostnames)
-    + [List of ELB ARNs](#list-of-elb-arns)
-    + [List of ELB Target Group ARNs](#list-of-elb-target-group-arns)
+    + [Create ALB](#create-alb)
+    + [Create Target Group forwarding to port HTTP/8000 of an EC2](#create-target-group-forwarding-to-port-http-8000-of-an-ec2)
+    + [Create Listener and Bind Target Group](#create-listener-and-bind-target-group)
+    + [Create HTTPS Listener with Host Based Rule](#create-https-listener-with-host-based-rule)
+    + [List of LoadBalancer Hostnames](#list-of-loadbalancer-hostnames)
+    + [List of LoadBalancer ARNs](#list-of-loadbalancer-arns)
+    + [List of Target Group ARNs](#list-of-target-group-arns)
     + [Find Instances for a Target Group](#find-instances-for-a-target-group)
 - [RDS](#rds)
     + [List of DB Clusters](#list-of-db-clusters)
@@ -161,7 +168,9 @@ i-00f11e8e33c971058  t2.nano    garrett.com
 ```
 
 #### List Instances with Public IP Address and Name
+
 :point_right: Tip: You can directly put this to your `/etc/hosts`
+
 ```bash
 aws ec2 describe-instances --query 'Reservations[*].Instances[?not_null(PublicIpAddress)]' | jq -r '.[][]|.PublicIpAddress+" "+(.Tags[]|select(.Key=="Name").Value)'
 223.64.72.64    fisher.com
@@ -169,6 +178,15 @@ aws ec2 describe-instances --query 'Reservations[*].Instances[?not_null(PublicIp
 182.139.20.233  nolan.com
 153.134.83.44   grimes-green.net
 202.32.63.121   garrett.com
+```
+
+#### List Instances with Tag
+
+```bash
+aws ec2 describe-instances | jq -r '.Reservations[].Instances[] | select(.Tags[] | .Value == "my-project-name") | .InstanceId'
+i-0f112d652ecf13dac
+i-0b3b5128445a332db
+i-0d1c1cf4e980ac593
 ```
 
 #### List of VPCs and CIDR IP Block
@@ -238,6 +256,15 @@ aws ec2 update-security-group-rule-descriptions-ingress --group-id sg-02a63c6768
 #### Delete Security Group
 ```bash
 aws ec2 delete-security-group --group-id sg-02a63c67684d8deed
+```
+
+## ACM
+
+#### List Certificate ARNs and DomainName
+
+```bash
+aws acm list-certificates | jq -r '.CertificateSummaryList[] | .CertificateArn+" "+.DomainName'
+arn:aws:acm:ap-southeast-1:987654321:certificate/88c10c4e-a0ba-41e9-bbd4-734e0191e363 *.example.com
 ```
 
 ## S3
@@ -344,20 +371,53 @@ arn:aws:lambda:ap-southeast-1:987654321:function:backend-api-function-5d4daa47fe
 
 ## ELB
 
-#### List of ELB Hostnames
+#### Create ALB
+
+```bash
+aws elbv2 create-load-balancer --name lb-my-app --subnets subnet-006283cc641883340 subnet-0f824d8944b903079 subnet-0b6976fef09a3ed00 | jq -r .LoadBalancers[0].LoadBalancerArn
+arn:aws:elasticloadbalancing:ap-southeast-1:987654321:loadbalancer/app/lb-my-app/a1ecf6e769562994
+```
+
+### Create Target Group forwarding to port HTTP/8000 of an EC2
+
+```bash
+aws elbv2 create-target-group --name tg-my-app --protocol HTTP --port 8000 --target-type instance --vpc-id vpc-0ae29454e100df108 | jq -r .TargetGroups[0].TargetGroupArn
+arn:aws:elasticloadbalancing:ap-southeast-1:987654321:targetgroup/tg-my-app/a7d3e159ca722a4d
+
+aws elbv2 register-targets --target-group-arn arn:aws:elasticloadbalancing:ap-southeast-1:987654321:targetgroup/tg-my-app/a7d3e159ca722a4d --targets Id=i-00a8e8746f02bdf29
+```
+
+#### Create Listener and Bind Target Group
+
+```bash
+aws elbv2 create-listener --load-balancer-arn arn:aws:elasticloadbalancing:ap-southeast-1:987654321:loadbalancer/app/lb-my-app/a1ecf6e769562994 --port 80 --protocol HTTP --default-actions Type=forward,TargetGroupArn=arn:aws:elasticloadbalancing:ap-southeast-1:987654321:targetgroup/tg-my-app/a7d3e159ca722a4d | jq -r .Listeners[0].ListenerArn
+arn:aws:elasticloadbalancing:ap-southeast-1:987654321:listener/app/lb-my-app/a1ecf6e769562994/d77331a1038731de
+```
+
+Now the `DNSName` of the `LoadBalancer` should respond to the same output producted by application running on port 8000 of the EC2.
+
+#### Create HTTPS Listener with Host Based Rule
+
+```bash
+aws elbv2 create-listener --load-balancer-arn arn:aws:elasticloadbalancing:ap-southeast-1:987654321:loadbalancer/app/lb-my-app/a1ecf6e769562994 --port 443 --protocol HTTPS --default-actions Type=forward,TargetGroupArn=arn:aws:elasticloadbalancing:ap-southeast-1:987654321:targetgroup/tg-my-app/a7d3e159ca722a4d --certificates CertificateArn=arn:aws:acm:ap-southeast-1:987654321:certificate/88c10c4e-a0ba-41e9-bbd4-734e0191e363
+
+aws elbv2 create-rule --listener-arn arn:aws:elasticloadbalancing:ap-southeast-1:987654321:listener/app/lb-my-app/a1ecf6e769562994/d77331a1038731de --priority 1 --conditions Field=host-header,HostHeaderConfig={Values=app.example.com} --actions Type=forward,TargetGroupArn=arn:aws:elasticloadbalancing:ap-southeast-1:987654321:targetgroup/tg-my-app/a7d3e159ca722a4d
+```
+
+#### List of LoadBalancer Hostnames
 ```bash
 aws elbv2 describe-load-balancers --query 'LoadBalancers[*].DNSName'  | jq -r 'to_entries[] | .value'
 frontend-lb-1220186848339.ap-southeast-1.elb.amazonaws.com
 backend-lb-6208709163457.ap-southeast-1.elb.amazonaws.com
 ```
-#### List of ELB ARNs
+#### List of LoadBalancer ARNs
 ```bash
 aws elbv2 describe-load-balancers | jq -r '.LoadBalancers[] | .LoadBalancerArn'
 arn:aws:elasticloadbalancing:ap-southeast-1:987654321:loadbalancer/app/frontend-lb/1220186848339
 arn:aws:elasticloadbalancing:ap-southeast-1:987654321:loadbalancer/app/backend-lb/6208709163457
 ```
 
-#### List of ELB Target Group ARNs
+#### List of Target Group ARNs
 ```bash
 aws elbv2 describe-target-groups | jq -r '.TargetGroups[] | .TargetGroupArn'
 arn:aws:elasticloadbalancing:ap-southeast-1:987654321:targetgroup/frontend/b6da07d35
