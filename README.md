@@ -378,7 +378,7 @@ aws elbv2 create-load-balancer --name lb-my-app --subnets subnet-006283cc6418833
 arn:aws:elasticloadbalancing:ap-southeast-1:987654321:loadbalancer/app/lb-my-app/a1ecf6e769562994
 ```
 
-### Create Target Group forwarding to port HTTP/8000 of an EC2
+#### Create Target Group forwarding to port HTTP/8000 of an EC2
 
 ```bash
 aws elbv2 create-target-group --name tg-my-app --protocol HTTP --port 8000 --target-type instance --vpc-id vpc-0ae29454e100df108 | jq -r .TargetGroups[0].TargetGroupArn
