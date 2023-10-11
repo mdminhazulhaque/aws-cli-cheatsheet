@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<meta property="og:title" content="S3" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="s3.html" />
+<meta property="og:site_name" content="aws-cli-cheatsheet" />
+<meta property="og:description" content="List Buckets: List Files in a Bucket: Create a Bucket: Delete a Bucket: Download an S3 Object to Local: Upload Local File as a S3 Object: Delete an S3 Object: Download Bucket to Local: Upload Local..." />
+<meta property="og:image" content="/_static/aws-jq.png" />
+<meta property="og:image:alt" content="aws-cli-cheatsheet" />
+<meta name="description" content="List Buckets: List Files in a Bucket: Create a Bucket: Delete a Bucket: Download an S3 Object to Local: Upload Local File as a S3 Object: Delete an S3 Object: Download Bucket to Local: Upload Local..." />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>S3 &mdash; aws-cli-cheatsheet  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="SNS" href="sns.html" />
+    <link rel="prev" title="Route53" href="route53.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            aws-cli-cheatsheet
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">AWS Services</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="acm.html">ACM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="amplify.html">Amplify</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apigw.html">API Gateway</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cloudfront.html">CloudFront</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cloudwatch.html">Cloudwatch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cognito.html">Cognito</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dynamodb.html">DynamoDB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ec2.html">EC2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ecr.html">ECR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="efs.html">EFS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="eks.html">EKS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="elasticache.html">ElastiCache</a></li>
+<li class="toctree-l1"><a class="reference internal" href="elb.html">ELB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="iam.html">IAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lambda.html">Lambda</a></li>
+<li class="toctree-l1"><a class="reference internal" href="opensearch.html">OpenSearch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rds.html">RDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="route53.html">Route53</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">S3</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#list-buckets">List Buckets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#list-files-in-a-bucket">List Files in a Bucket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#create-a-bucket">Create a Bucket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#delete-a-bucket">Delete a Bucket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#download-an-s3-object-to-local">Download an S3 Object to Local</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#upload-local-file-as-a-s3-object">Upload Local File as a S3 Object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#delete-an-s3-object">Delete an S3 Object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#download-bucket-to-local">Download Bucket to Local</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#upload-local-directory-to-bucket">Upload Local Directory to Bucket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#share-s3-object-without-presigned-url">Share S3 Object without Presigned URL</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sns.html">SNS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sqs.html">SQS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wafv2.html">WAF</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">aws-cli-cheatsheet</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">S3</li>
+<li class="wy-breadcrumbs-aside">
+	<a href="https://github.com/mdminhazulhaque/aws-cli-cheatsheet" class="fa fa-github"> View on GitHub </a>
+</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="s3">
+<h1>S3<a class="headerlink" href="#s3" title="Link to this heading"></a></h1>
+<section id="list-buckets">
+<h2>List Buckets<a class="headerlink" href="#list-buckets" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>s3<span class="w"> </span>ls
+</pre></div>
+</div>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">2020-01-28 18</span><span class="o">:</span><span class="s">49:50 customer-data-primary</span>
+<span class="na">2020-01-28 18</span><span class="o">:</span><span class="s">50:22 customer-data-backup</span>
+<span class="na">2020-01-28 18</span><span class="o">:</span><span class="s">50:54 wordpress-cdn</span>
+<span class="na">2020-01-28 18</span><span class="o">:</span><span class="s">52:25 backend-artifacts-20200220-deployment</span>
+</pre></div>
+</div>
+</section>
+<section id="list-files-in-a-bucket">
+<h2>List Files in a Bucket<a class="headerlink" href="#list-files-in-a-bucket" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>s3<span class="w"> </span>ls<span class="w"> </span>wordpress-cdn/wp-content/uploads/2019/10/04/
+</pre></div>
+</div>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">2019-10-04 15</span><span class="o">:</span><span class="s">02:02     133557 amazing-content.jpg</span>
+<span class="na">2019-10-04 15</span><span class="o">:</span><span class="s">02:02       2986 amazing-content-103x50.jpg</span>
+<span class="na">2019-10-04 15</span><span class="o">:</span><span class="s">02:02       5640 amazing-content-120x120.jpg</span>
+<span class="na">2019-10-04 15</span><span class="o">:</span><span class="s">02:02       7924 amazing-content-150x150.jpg</span>
+</pre></div>
+</div>
+</section>
+<section id="create-a-bucket">
+<h2>Create a Bucket<a class="headerlink" href="#create-a-bucket" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>s3<span class="w"> </span>mb<span class="w"> </span>s3://my-awesome-new-bucket
+make_bucket:<span class="w"> </span>my-awesome-new-bucket
+</pre></div>
+</div>
+</section>
+<section id="delete-a-bucket">
+<h2>Delete a Bucket<a class="headerlink" href="#delete-a-bucket" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>s3<span class="w"> </span>rb<span class="w"> </span>s3://my-awesome-new-bucket<span class="w"> </span>--force
+</pre></div>
+</div>
+</section>
+<section id="download-an-s3-object-to-local">
+<h2>Download an S3 Object to Local<a class="headerlink" href="#download-an-s3-object-to-local" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>s3<span class="w"> </span>cp<span class="w"> </span>s3://my-awesome-new-bucket<span class="w"> </span>.
+</pre></div>
+</div>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">download</span><span class="o">:</span><span class="w"> </span><span class="s">./backup.tar from s3://my-awesome-new-bucket/backup.tar</span>
+</pre></div>
+</div>
+</section>
+<section id="upload-local-file-as-a-s3-object">
+<h2>Upload Local File as a S3 Object<a class="headerlink" href="#upload-local-file-as-a-s3-object" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>s3<span class="w"> </span>cp<span class="w"> </span>backup.tar<span class="w"> </span>s3://my-awesome-new-bucket
+</pre></div>
+</div>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">upload</span><span class="o">:</span><span class="w"> </span><span class="s">./backup.tar to s3://my-awesome-new-bucket/backup.tar</span>
+</pre></div>
+</div>
+</section>
+<section id="delete-an-s3-object">
+<h2>Delete an S3 Object<a class="headerlink" href="#delete-an-s3-object" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>s3<span class="w"> </span>rm<span class="w"> </span>s3://my-awesome-new-bucket/secret-file.gz
+</pre></div>
+</div>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">delete</span><span class="o">:</span><span class="w"> </span><span class="s">s3://my-awesome-new-bucket/secret-file.gz</span>
+</pre></div>
+</div>
+</section>
+<section id="download-bucket-to-local">
+<h2>Download Bucket to Local<a class="headerlink" href="#download-bucket-to-local" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>s3<span class="w"> </span>sync<span class="w"> </span>s3://my-awesome-new-bucket/<span class="w"> </span>/media/Passport-Ultra/Backup
+</pre></div>
+</div>
+</section>
+<section id="upload-local-directory-to-bucket">
+<h2>Upload Local Directory to Bucket<a class="headerlink" href="#upload-local-directory-to-bucket" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>s3<span class="w"> </span>sync<span class="w"> </span>/home/minhaz/Downloads<span class="w"> </span>s3://my-awesome-new-bucket/
+</pre></div>
+</div>
+</section>
+<section id="share-s3-object-without-presigned-url">
+<h2>Share S3 Object without Presigned URL<a class="headerlink" href="#share-s3-object-without-presigned-url" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>s3<span class="w"> </span>presign<span class="w"> </span>s3://my-awesome-new-bucket/business-reports.pdf<span class="w"> </span>--expires-in<span class="w"> </span><span class="m">3600</span>
+</pre></div>
+</div>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">https</span><span class="o">:</span><span class="s">//my-awesome-new-bucket.s3.amazonaws.com/business-reports.pdf?AWSAccessKeyId=AKISUENSAKSIEUAA&amp;Expires=1582876994&amp;Signature=kizOEA93kaIHw7uv25wSFIKLmAx</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="route53.html" class="btn btn-neutral float-left" title="Route53" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="sns.html" class="btn btn-neutral float-right" title="SNS" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+  <p>&#169; Copyright 2023, <a href="https://mdminhazulhaque.io/">Md Minhazul Haque</a></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<meta property="og:title" content="ELB" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="elb.html" />
+<meta property="og:site_name" content="aws-cli-cheatsheet" />
+<meta property="og:description" content="Create an ALB: Create a Target Group: Register EC2 to a Target Group: Create Listener and forward to a Target Group: Create HTTPS Listener with Host Based Rule: List LoadBalancer DNS Names: List Lo..." />
+<meta property="og:image" content="/_static/aws-jq.png" />
+<meta property="og:image:alt" content="aws-cli-cheatsheet" />
+<meta name="description" content="Create an ALB: Create a Target Group: Register EC2 to a Target Group: Create Listener and forward to a Target Group: Create HTTPS Listener with Host Based Rule: List LoadBalancer DNS Names: List Lo..." />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ELB &mdash; aws-cli-cheatsheet  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="IAM" href="iam.html" />
+    <link rel="prev" title="ElastiCache" href="elasticache.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            aws-cli-cheatsheet
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">AWS Services</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="acm.html">ACM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="amplify.html">Amplify</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apigw.html">API Gateway</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cloudfront.html">CloudFront</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cloudwatch.html">Cloudwatch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cognito.html">Cognito</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dynamodb.html">DynamoDB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ec2.html">EC2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ecr.html">ECR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="efs.html">EFS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="eks.html">EKS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="elasticache.html">ElastiCache</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">ELB</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#create-an-alb">Create an ALB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#create-a-target-group">Create a Target Group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#register-ec2-to-a-target-group">Register EC2 to a Target Group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#create-listener-and-forward-to-a-target-group">Create Listener and forward to a Target Group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#create-https-listener-with-host-based-rule">Create HTTPS Listener with Host Based Rule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#list-loadbalancer-dns-names">List LoadBalancer DNS Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#list-loadbalancer-arns">List LoadBalancer ARNs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#list-target-group-arns">List Target Group ARNs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#find-instances-for-a-target-group">Find Instances for a Target Group</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="iam.html">IAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lambda.html">Lambda</a></li>
+<li class="toctree-l1"><a class="reference internal" href="opensearch.html">OpenSearch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rds.html">RDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="route53.html">Route53</a></li>
+<li class="toctree-l1"><a class="reference internal" href="s3.html">S3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sns.html">SNS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sqs.html">SQS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wafv2.html">WAF</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">aws-cli-cheatsheet</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">ELB</li>
+<li class="wy-breadcrumbs-aside">
+	<a href="https://github.com/mdminhazulhaque/aws-cli-cheatsheet" class="fa fa-github"> View on GitHub </a>
+</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="elb">
+<h1>ELB<a class="headerlink" href="#elb" title="Link to this heading"></a></h1>
+<section id="create-an-alb">
+<h2>Create an ALB<a class="headerlink" href="#create-an-alb" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>elbv2<span class="w"> </span>create-load-balancer<span class="w"> </span>--name<span class="w"> </span>lb-my-app<span class="w"> </span>--subnets<span class="w"> </span>subnet-006283cc641883340<span class="w"> </span>subnet-0f824d8944b903079<span class="w"> </span>subnet-0b6976fef09a3ed00<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span>.LoadBalancers<span class="o">[</span><span class="m">0</span><span class="o">]</span>.LoadBalancerArn
+</pre></div>
+</div>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">arn</span><span class="o">:</span><span class="s">aws:elasticloadbalancing:ap-southeast-1:987654321:loadbalancer/app/lb-my-app/a1ecf6e769562994</span>
+</pre></div>
+</div>
+</section>
+<section id="create-a-target-group">
+<h2>Create a Target Group<a class="headerlink" href="#create-a-target-group" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>elbv2<span class="w"> </span>create-target-group<span class="w"> </span>--name<span class="w"> </span>tg-my-app<span class="w"> </span>--protocol<span class="w"> </span>HTTP<span class="w"> </span>--port<span class="w"> </span><span class="m">8000</span><span class="w"> </span>--target-type<span class="w"> </span>instance<span class="w"> </span>--vpc-id<span class="w"> </span>vpc-0ae29454e100df108<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span>.TargetGroups<span class="o">[</span><span class="m">0</span><span class="o">]</span>.TargetGroupArn
+</pre></div>
+</div>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">arn</span><span class="o">:</span><span class="s">aws:elasticloadbalancing:ap-southeast-1:987654321:targetgroup/tg-my-app/a7d3e159ca722a4d</span>
+</pre></div>
+</div>
+</section>
+<section id="register-ec2-to-a-target-group">
+<h2>Register EC2 to a Target Group<a class="headerlink" href="#register-ec2-to-a-target-group" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>elbv2<span class="w"> </span>register-targets<span class="w"> </span>--target-group-arn<span class="w"> </span>arn:aws:elasticloadbalancing:ap-southeast-1:987654321:targetgroup/tg-my-app/a7d3e159ca722a4d<span class="w"> </span>--targets<span class="w"> </span><span class="nv">Id</span><span class="o">=</span>i-00a8e8746f02bdf29
+</pre></div>
+</div>
+</section>
+<section id="create-listener-and-forward-to-a-target-group">
+<h2>Create Listener and forward to a Target Group<a class="headerlink" href="#create-listener-and-forward-to-a-target-group" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>elbv2<span class="w"> </span>create-listener<span class="w"> </span>--load-balancer-arn<span class="w"> </span>arn:aws:elasticloadbalancing:ap-southeast-1:987654321:loadbalancer/app/lb-my-app/a1ecf6e769562994<span class="w"> </span>--port<span class="w"> </span><span class="m">80</span><span class="w"> </span>--protocol<span class="w"> </span>HTTP<span class="w"> </span>--default-actions<span class="w"> </span><span class="nv">Type</span><span class="o">=</span>forward,TargetGroupArn<span class="o">=</span>arn:aws:elasticloadbalancing:ap-southeast-1:987654321:targetgroup/tg-my-app/a7d3e159ca722a4d<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span>.Listeners<span class="o">[</span><span class="m">0</span><span class="o">]</span>.ListenerArn
+</pre></div>
+</div>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">arn</span><span class="o">:</span><span class="s">aws:elasticloadbalancing:ap-southeast-1:987654321:listener/app/lb-my-app/a1ecf6e769562994/d77331a1038731de</span>
+</pre></div>
+</div>
+</section>
+<section id="create-https-listener-with-host-based-rule">
+<h2>Create HTTPS Listener with Host Based Rule<a class="headerlink" href="#create-https-listener-with-host-based-rule" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>elbv2<span class="w"> </span>create-listener<span class="w"> </span>--load-balancer-arn<span class="w"> </span>arn:aws:elasticloadbalancing:ap-southeast-1:987654321:loadbalancer/app/lb-my-app/a1ecf6e769562994<span class="w"> </span>--port<span class="w"> </span><span class="m">443</span><span class="w"> </span>--protocol<span class="w"> </span>HTTPS<span class="w"> </span>--default-actions<span class="w"> </span><span class="nv">Type</span><span class="o">=</span>forward,TargetGroupArn<span class="o">=</span>arn:aws:elasticloadbalancing:ap-southeast-1:987654321:targetgroup/tg-my-app/a7d3e159ca722a4d<span class="w"> </span>--certificates<span class="w"> </span><span class="nv">CertificateArn</span><span class="o">=</span>arn:aws:acm:ap-southeast-1:987654321:certificate/88c10c4e-a0ba-41e9-bbd4-734e0191e363
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>elbv2<span class="w"> </span>create-rule<span class="w"> </span>--listener-arn<span class="w"> </span>arn:aws:elasticloadbalancing:ap-southeast-1:987654321:listener/app/lb-my-app/a1ecf6e769562994/d77331a1038731de<span class="w"> </span>--priority<span class="w"> </span><span class="m">1</span><span class="w"> </span>--conditions<span class="w"> </span><span class="nv">Field</span><span class="o">=</span>host-header,HostHeaderConfig<span class="o">={</span><span class="nv">Values</span><span class="o">=</span>app.example.com<span class="o">}</span><span class="w"> </span>--actions<span class="w"> </span><span class="nv">Type</span><span class="o">=</span>forward,TargetGroupArn<span class="o">=</span>arn:aws:elasticloadbalancing:ap-southeast-1:987654321:targetgroup/tg-my-app/a7d3e159ca722a4d
+</pre></div>
+</div>
+</section>
+<section id="list-loadbalancer-dns-names">
+<h2>List LoadBalancer DNS Names<a class="headerlink" href="#list-loadbalancer-dns-names" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>elbv2<span class="w"> </span>describe-load-balancers<span class="w"> </span>--query<span class="w"> </span><span class="s1">&#39;LoadBalancers[*].DNSName&#39;</span><span class="w">  </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;to_entries[] | .value&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">frontend-lb-1220186848339.ap-southeast-1.elb.amazonaws.com</span>
+<span class="na">backend-lb-6208709163457.ap-southeast-1.elb.amazonaws.com</span>
+</pre></div>
+</div>
+</section>
+<section id="list-loadbalancer-arns">
+<h2>List LoadBalancer ARNs<a class="headerlink" href="#list-loadbalancer-arns" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>elbv2<span class="w"> </span>describe-load-balancers<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.LoadBalancers[] | .LoadBalancerArn&#39;</span>
+arn:aws:elasticloadbalancing:ap-southeast-1:987654321:loadbalancer/app/frontend-lb/1220186848339
+arn:aws:elasticloadbalancing:ap-southeast-1:987654321:loadbalancer/app/backend-lb/6208709163457
+</pre></div>
+</div>
+</section>
+<section id="list-target-group-arns">
+<h2>List Target Group ARNs<a class="headerlink" href="#list-target-group-arns" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>elbv2<span class="w"> </span>describe-target-groups<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.TargetGroups[] | .TargetGroupArn&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">arn</span><span class="o">:</span><span class="s">aws:elasticloadbalancing:ap-southeast-1:987654321:targetgroup/frontend/b6da07d35</span>
+<span class="na">arn</span><span class="o">:</span><span class="s">aws:elasticloadbalancing:ap-southeast-1:987654321:targetgroup/backend/97ad3b13c</span>
+</pre></div>
+</div>
+</section>
+<section id="find-instances-for-a-target-group">
+<h2>Find Instances for a Target Group<a class="headerlink" href="#find-instances-for-a-target-group" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>elbv2<span class="w"> </span>describe-target-health<span class="w"> </span>--target-group-arn<span class="w"> </span>arn:aws:elasticloadbalancing:ap-southeast-1:987654321:targetgroup/wordpress-ph/88f517d6b5326a26<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.TargetHealthDescriptions[] | .Target.Id&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">i-0b3b5128445a332db</span>
+<span class="na">i-0d1c1cf4e980ac593</span>
+<span class="na">i-00f11e8e33c971058</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="elasticache.html" class="btn btn-neutral float-left" title="ElastiCache" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="iam.html" class="btn btn-neutral float-right" title="IAM" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+  <p>&#169; Copyright 2023, <a href="https://mdminhazulhaque.io/">Md Minhazul Haque</a></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<meta property="og:title" content="IAM" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="iam.html" />
+<meta property="og:site_name" content="aws-cli-cheatsheet" />
+<meta property="og:description" content="List UserId and UserName: Get a Single User: Add a User: Delete a User: List Access Keys for a User: Delete Access Key for a User: Activate/Deactivate Access Key for a User: Generate New Access Key..." />
+<meta property="og:image" content="/_static/aws-jq.png" />
+<meta property="og:image:alt" content="aws-cli-cheatsheet" />
+<meta name="description" content="List UserId and UserName: Get a Single User: Add a User: Delete a User: List Access Keys for a User: Delete Access Key for a User: Activate/Deactivate Access Key for a User: Generate New Access Key..." />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IAM &mdash; aws-cli-cheatsheet  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Lambda" href="lambda.html" />
+    <link rel="prev" title="ELB" href="elb.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            aws-cli-cheatsheet
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">AWS Services</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="acm.html">ACM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="amplify.html">Amplify</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apigw.html">API Gateway</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cloudfront.html">CloudFront</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cloudwatch.html">Cloudwatch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cognito.html">Cognito</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dynamodb.html">DynamoDB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ec2.html">EC2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ecr.html">ECR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="efs.html">EFS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="eks.html">EKS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="elasticache.html">ElastiCache</a></li>
+<li class="toctree-l1"><a class="reference internal" href="elb.html">ELB</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">IAM</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#list-userid-and-username">List UserId and UserName</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#get-a-single-user">Get a Single User</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#add-a-user">Add a User</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#delete-a-user">Delete a User</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#list-access-keys-for-a-user">List Access Keys for a User</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#delete-access-key-for-a-user">Delete Access Key for a User</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#activate-deactivate-access-key-for-a-user">Activate/Deactivate Access Key for a User</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#generate-new-access-key-for-a-user">Generate New Access Key for a User</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#change-console-password-for-a-user">Change Console Password for a User</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#list-groups">List Groups</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#add-delete-groups">Add/Delete Groups</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#list-policies-and-arns">List Policies and ARNs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#list-user-group-roles-for-a-policy">List User/Group/Roles for a Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#list-policies-for-a-group">List Policies for a Group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#add-policy-to-a-group">Add Policy to a Group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#add-user-to-a-group">Add User to a Group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#remove-user-from-a-group">Remove User from a Group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#list-users-in-a-group">List Users in a Group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#list-groups-for-a-user">List Groups for a User</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#attach-detach-policy-to-a-group">Attach/Detach Policy to a Group</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lambda.html">Lambda</a></li>
+<li class="toctree-l1"><a class="reference internal" href="opensearch.html">OpenSearch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rds.html">RDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="route53.html">Route53</a></li>
+<li class="toctree-l1"><a class="reference internal" href="s3.html">S3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sns.html">SNS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sqs.html">SQS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wafv2.html">WAF</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">aws-cli-cheatsheet</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">IAM</li>
+<li class="wy-breadcrumbs-aside">
+	<a href="https://github.com/mdminhazulhaque/aws-cli-cheatsheet" class="fa fa-github"> View on GitHub </a>
+</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="iam">
+<h1>IAM<a class="headerlink" href="#iam" title="Link to this heading"></a></h1>
+<section id="list-userid-and-username">
+<h2>List UserId and UserName<a class="headerlink" href="#list-userid-and-username" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>iam<span class="w"> </span>list-users<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.Users[]|.UserId+&quot; &quot;+.UserName&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">AIDAZBWIOJIQFOLNBXXCVSUQ kaiser</span>
+<span class="na">AIDAZCTWYVXYOKSHVWXPYPLR thornton</span>
+<span class="na">AIDAZUYALCGFQJENBCZFJTVX maldonado</span>
+<span class="na">AIDAZKQAFIGQJWOKKSKRBLGE key</span>
+<span class="na">AIDAZXUDGQVQCEWBFGIJOWWY nelson</span>
+</pre></div>
+</div>
+</section>
+<section id="get-a-single-user">
+<h2>Get a Single User<a class="headerlink" href="#get-a-single-user" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>iam<span class="w"> </span>get-user<span class="w"> </span>--user-name<span class="w"> </span>kaiser
+</pre></div>
+</div>
+</section>
+<section id="add-a-user">
+<h2>Add a User<a class="headerlink" href="#add-a-user" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>iam<span class="w"> </span>create-user<span class="w"> </span>--user-name<span class="w"> </span>audit-temp
+</pre></div>
+</div>
+</section>
+<section id="delete-a-user">
+<h2>Delete a User<a class="headerlink" href="#delete-a-user" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>iam<span class="w"> </span>delete-user<span class="w"> </span>--user-name<span class="w"> </span>audit-temp
+</pre></div>
+</div>
+</section>
+<section id="list-access-keys-for-a-user">
+<h2>List Access Keys for a User<a class="headerlink" href="#list-access-keys-for-a-user" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>iam<span class="w"> </span>list-access-keys<span class="w"> </span>--user-name<span class="w"> </span>audit-temp<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span>.AccessKeyMetadata<span class="o">[]</span>.AccessKeyId
+</pre></div>
+</div>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">AKIABWIOJIQFOLNBXXCVSUQ</span>
+<span class="na">AKIACTWYVXYOKSHVWXPYPLR</span>
+</pre></div>
+</div>
+</section>
+<section id="delete-access-key-for-a-user">
+<h2>Delete Access Key for a User<a class="headerlink" href="#delete-access-key-for-a-user" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>iam<span class="w"> </span>delete-access-key<span class="w"> </span>--user-name<span class="w"> </span>audit-temp<span class="w"> </span>--access-key-id<span class="w"> </span>AKIABWIOJIQFOLNBXXCVSUQ
+</pre></div>
+</div>
+</section>
+<section id="activate-deactivate-access-key-for-a-user">
+<h2>Activate/Deactivate Access Key for a User<a class="headerlink" href="#activate-deactivate-access-key-for-a-user" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>iam<span class="w"> </span>update-access-key<span class="w"> </span>--status<span class="w"> </span>Inactive<span class="w"> </span>--user-name<span class="w"> </span>audit-temp<span class="w"> </span>--access-key-id<span class="w"> </span>AKIABWIOJIQFOLNBXXCVSUQ
+aws<span class="w"> </span>iam<span class="w"> </span>update-access-key<span class="w"> </span>--status<span class="w"> </span>Active<span class="w">   </span>--user-name<span class="w"> </span>audit-temp<span class="w"> </span>--access-key-id<span class="w"> </span>AKIABWIOJIQFOLNBXXCVSUQ
+</pre></div>
+</div>
+</section>
+<section id="generate-new-access-key-for-a-user">
+<h2>Generate New Access Key for a User<a class="headerlink" href="#generate-new-access-key-for-a-user" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>iam<span class="w"> </span>create-access-key<span class="w"> </span>--user-name<span class="w"> </span>audit-temp<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.AccessKey | .AccessKeyId+&quot; &quot;+.SecretAccessKey&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">AKIABWIOJIQFOLNBXXCVSUQ p9ge02ebLX9jobdQKmfikRqCiEw3HBylwHyXq0z</span>
+</pre></div>
+</div>
+</section>
+<section id="change-console-password-for-a-user">
+<h2>Change Console Password for a User<a class="headerlink" href="#change-console-password-for-a-user" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>iam<span class="w"> </span>update-login-profile<span class="w"> </span>--user-name<span class="w"> </span>bob-marketing<span class="w"> </span>--password<span class="w"> </span><span class="s1">&#39;5tr0nGp@$$w0rD&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="list-groups">
+<h2>List Groups<a class="headerlink" href="#list-groups" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>iam<span class="w"> </span>list-groups<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span>.Groups<span class="o">[]</span>.GroupName
+</pre></div>
+</div>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">developers</span>
+<span class="na">administrators</span>
+<span class="na">testers</span>
+<span class="na">marketing-ro</span>
+</pre></div>
+</div>
+</section>
+<section id="add-delete-groups">
+<h2>Add/Delete Groups<a class="headerlink" href="#add-delete-groups" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>iam<span class="w"> </span>create-group<span class="w"> </span>--group-name<span class="w"> </span>business-ro
+aws<span class="w"> </span>iam<span class="w"> </span>delete-group<span class="w"> </span>--group-name<span class="w"> </span>business-ro
+</pre></div>
+</div>
+</section>
+<section id="list-policies-and-arns">
+<h2>List Policies and ARNs<a class="headerlink" href="#list-policies-and-arns" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>iam<span class="w"> </span>list-policies<span class="w">               </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.Policies[]|.PolicyName+&quot; &quot;+.Arn&#39;</span>
+aws<span class="w"> </span>iam<span class="w"> </span>list-policies<span class="w"> </span>--scope<span class="w"> </span>AWS<span class="w">   </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.Policies[]|.PolicyName+&quot; &quot;+.Arn&#39;</span>
+aws<span class="w"> </span>iam<span class="w"> </span>list-policies<span class="w"> </span>--scope<span class="w"> </span>Local<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.Policies[]|.PolicyName+&quot; &quot;+.Arn&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="list-user-group-roles-for-a-policy">
+<h2>List User/Group/Roles for a Policy<a class="headerlink" href="#list-user-group-roles-for-a-policy" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>iam<span class="w"> </span>list-entities-for-policy<span class="w"> </span>--policy-arn<span class="w"> </span>arn:aws:iam::987654321:policy/Marketing-ReadOnly
+</pre></div>
+</div>
+</section>
+<section id="list-policies-for-a-group">
+<h2>List Policies for a Group<a class="headerlink" href="#list-policies-for-a-group" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>iam<span class="w"> </span>list-attached-group-policies<span class="w"> </span>--group-name<span class="w"> </span>business-ro
+</pre></div>
+</div>
+</section>
+<section id="add-policy-to-a-group">
+<h2>Add Policy to a Group<a class="headerlink" href="#add-policy-to-a-group" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>iam<span class="w"> </span>attach-group-policy<span class="w"> </span>--group-name<span class="w"> </span>business-ro<span class="w"> </span>--policy-arn<span class="w"> </span>arn:aws:iam::aws:policy/DynamoDBReadOnlyAccess
+</pre></div>
+</div>
+</section>
+<section id="add-user-to-a-group">
+<h2>Add User to a Group<a class="headerlink" href="#add-user-to-a-group" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>iam<span class="w"> </span>add-user-to-group<span class="w"> </span>--group-name<span class="w"> </span>business-ro<span class="w"> </span>--user-name<span class="w"> </span>marketing-michael
+</pre></div>
+</div>
+</section>
+<section id="remove-user-from-a-group">
+<h2>Remove User from a Group<a class="headerlink" href="#remove-user-from-a-group" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>iam<span class="w"> </span>remove-user-from-group<span class="w"> </span>--group-name<span class="w"> </span>business-ro<span class="w"> </span>--user-name<span class="w"> </span>marketing-alice
+</pre></div>
+</div>
+</section>
+<section id="list-users-in-a-group">
+<h2>List Users in a Group<a class="headerlink" href="#list-users-in-a-group" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>iam<span class="w"> </span>get-group<span class="w"> </span>--group-name<span class="w"> </span>business-ro
+</pre></div>
+</div>
+</section>
+<section id="list-groups-for-a-user">
+<h2>List Groups for a User<a class="headerlink" href="#list-groups-for-a-user" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>iam<span class="w"> </span>list-groups-for-user<span class="w"> </span>--user-name<span class="w"> </span>qa-bob
+</pre></div>
+</div>
+</section>
+<section id="attach-detach-policy-to-a-group">
+<h2>Attach/Detach Policy to a Group<a class="headerlink" href="#attach-detach-policy-to-a-group" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>iam<span class="w"> </span>detach-group-policy<span class="w"> </span>--group-name<span class="w"> </span>business-ro<span class="w"> </span>--policy-arn<span class="w"> </span>arn:aws:iam::aws:policy/DynamoDBFullAccess
+aws<span class="w"> </span>iam<span class="w"> </span>attach-group-policy<span class="w"> </span>--group-name<span class="w"> </span>business-ro<span class="w"> </span>--policy-arn<span class="w"> </span>arn:aws:iam::aws:policy/DynamoDBFullAccess
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="elb.html" class="btn btn-neutral float-left" title="ELB" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="lambda.html" class="btn btn-neutral float-right" title="Lambda" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+  <p>&#169; Copyright 2023, <a href="https://mdminhazulhaque.io/">Md Minhazul Haque</a></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
