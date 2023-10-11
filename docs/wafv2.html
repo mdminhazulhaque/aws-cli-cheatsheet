@@ -134,7 +134,7 @@
 </section>
 <section id="list-resources-for-an-web-acl">
 <h2>List Resources for an Web ACL<a class="headerlink" href="#list-resources-for-an-web-acl" title="Link to this heading"></a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>wafv2<span class="w"> </span>wafv2<span class="w"> </span>list-resources-for-web-acl<span class="w"> </span>--web-acl-arn<span class="w"> </span>arn:aws:wafv2:us-east-2:123456789:regional/webacl/prod-frontend-allow/5cf184c3-d7f0-44af-8c99-f3f08aec0267<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.ResourceArns[]|.&#39;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>wafv2<span class="w"> </span>list-resources-for-web-acl<span class="w"> </span>--web-acl-arn<span class="w"> </span>arn:aws:wafv2:us-east-2:123456789:regional/webacl/prod-frontend-allow/5cf184c3-d7f0-44af-8c99-f3f08aec0267<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.ResourceArns[]|.&#39;</span>
 </pre></div>
 </div>
 <div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">arn</span><span class="o">:</span><span class="s">aws:elasticloadbalancing:us-east-2:123456789:loadbalancer/app/k8s-backend-5cf184c3/f3f08aec0267</span>

@@ -33,7 +33,7 @@ List Resources for an Web ACL
 
 .. code:: bash
 
-   aws wafv2 wafv2 list-resources-for-web-acl --web-acl-arn arn:aws:wafv2:us-east-2:123456789:regional/webacl/prod-frontend-allow/5cf184c3-d7f0-44af-8c99-f3f08aec0267 | jq -r '.ResourceArns[]|.'
+   aws wafv2 list-resources-for-web-acl --web-acl-arn arn:aws:wafv2:us-east-2:123456789:regional/webacl/prod-frontend-allow/5cf184c3-d7f0-44af-8c99-f3f08aec0267 | jq -r '.ResourceArns[]|.'
 
 .. code:: ini
 
