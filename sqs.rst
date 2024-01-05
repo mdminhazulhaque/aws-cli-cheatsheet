@@ -82,3 +82,9 @@ Delete a Queue
 
    aws sqs delete-queue --queue-url https://ap-southeast-1.queue.amazonaws.com/987654321/public-events.fifo
 
+Query Message Count in a Queue
+------------------------------
+
+.. code:: bash
+
+   aws sqs get-queue-attributes --attribute-names ApproximateNumberOfMessages --queue-url https://ap-southeast-1.queue.amazonaws.com/987654321/public-events.fifo
