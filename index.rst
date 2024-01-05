@@ -44,6 +44,7 @@ like the following. So you no longer need to pass ``--profile`` to
    acm
    amplify
    apigw
+   ce
    cloudfront
    cloudwatch
    cognito
