@@ -9,7 +9,7 @@ extensions = [
 ]
 
 templates_path = ['_templates']
-exclude_patterns = ['build.sh']
+exclude_patterns = ['build.sh', '.github/*', 'env/*', 'requirements.txt']
 
 html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']

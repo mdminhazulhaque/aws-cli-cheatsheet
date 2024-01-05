@@ -1,0 +1,35 @@
+name: Publish
+on:
+  push:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+      - name: Setup Python3
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      - name: Install Sphinx
+        run: |
+          sudo apt-get install python-setuptools
+          pip install -r requirements.txt
+      - name: Build Pages
+        run: python -msphinx . docs
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
