@@ -2,4 +2,4 @@
 
 Supercharge your daily acitivities related to AWS cloud using the combination of AWS CLI and JQ.
 
-Visit [aws-jq.mdminhazulhaque.io](https://aws-jq.mdminhazulhaque.io)
+Visit [aws-cli-cheatsheet.mdminhazulhaque.io](https://aws-cli-cheatsheet.mdminhazulhaque.io)
