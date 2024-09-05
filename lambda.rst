@@ -15,6 +15,22 @@ List Lambda Functions, Runtime and Memory
    partner-api-8XJAP1VVLYA7       python3.7   128
    marketing-promo-sqs-function   nodejs10.x  128
 
+List Lambda Environment Variables
+---------------------------------
+
+.. code:: bash
+
+   aws lambda get-function --function-name my-app-production | jq -r .Configuration.Environment.Variables
+
+.. code:: ini
+
+   ...
+   "FILESYSTEM_DRIVER": "s3",
+   "APP_ENV": "production",
+   "CACHE_STORE": "dynamodb",
+   "QUEUE_TIMEOUT": "69",
+   ...
+
 List Lambda Layers
 ------------------
 
