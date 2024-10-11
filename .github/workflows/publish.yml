@@ -22,11 +22,7 @@ jobs:
           python-version: '3.x'
       - name: Install Sphinx
         run: |
-          pip install --upgrade setuptools
-          pip install sphinx
-          pip install sphinx_rtd_theme
-          pip install sphinxemoji
-          pip install sphinxext.opengraph
+          pip install -r requirements.txt
       - name: Build Pages
         run: python -msphinx . docs
       - name: Upload artifact
