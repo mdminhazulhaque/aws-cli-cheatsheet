@@ -14,5 +14,6 @@ exclude_patterns = ['build.sh', '.github/*', 'env/*', 'requirements.txt']
 html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
 html_extra_path = ['CNAME', '.nojekyll']
+html_favicon = "/_static/favicon.ico"
 
 ogp_image = "/_static/aws-jq.png"
