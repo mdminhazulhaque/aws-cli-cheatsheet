@@ -16,6 +16,13 @@ List of API Gateway IDs and Names
    f99796943  internal-crm-api
    ee86b4cde  import-data-api
 
+Delete API Gateway
+------------------
+
+.. code:: bash
+
+   aws apigateway delete-rest-api --rest-api-id ee86b4cde
+
 List of API Gateway Keys
 ------------------------
 
