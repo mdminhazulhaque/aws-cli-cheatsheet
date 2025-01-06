@@ -45,3 +45,10 @@ Modify NodeGroups for Cluster
 .. code:: bash
 
    aws eks update-nodegroup-config --cluster-name devtest --nodegroup-name dev-nodes --scaling-config minSize=1,desiredSize=5,maxSize=10
+
+Refresh EKS AutoScalingGroup Instances
+--------------------------------------
+
+.. code:: bash
+
+   aws autoscaling start-instance-refresh --auto-scaling-group-name eks-mycluster-20241119081040239300000001-fcc9a1bc-a1ef-54d4-d72f-b171eb5b0062
