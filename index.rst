@@ -61,6 +61,7 @@ like the following. So you no longer need to pass ``--profile`` to
    rds
    route53
    s3
+   ses
    sns
    sqs
    wafv2
