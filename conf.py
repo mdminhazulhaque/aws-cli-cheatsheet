@@ -1,5 +1,5 @@
 project = 'aws-cli-cheatsheet'
-copyright = '2024, Md Minhazul Haque'
+copyright = '2025, Md Minhazul Haque'
 author = 'Md Minhazul Haque'
 
 extensions = [
