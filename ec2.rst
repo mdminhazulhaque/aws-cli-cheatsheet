@@ -46,6 +46,13 @@ List Instances with Specific Tag
    i-0b3b5128445a332db
    i-0d1c1cf4e980ac593
 
+Tag Instances
+-------------
+
+.. code:: bash
+
+   aws ec2 create-tags --resources i-0f112d652ecf13dac --tags Key=environment,Value=prod
+
 List VPCs with CIDR IP Block
 ----------------------------
 

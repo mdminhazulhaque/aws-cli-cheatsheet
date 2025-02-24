@@ -38,3 +38,11 @@ Get DKIM Verification Status
    ...
    "DkimEnabled": true,
    ...
+
+Tag identity
+------------
+
+.. code:: bash
+
+   aws sesv2 tag-resource --resource-arn arn:aws:ses:us-west-2:987654321:identity/example.com \
+    --tags Key=environment,Value=prod Key=team/backend
