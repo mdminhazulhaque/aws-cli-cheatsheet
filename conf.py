@@ -1,5 +1,7 @@
+from datetime import datetime
+
 project = 'aws-cli-cheatsheet'
-copyright = '2025, Md Minhazul Haque'
+copyright = f'{datetime.now().year}, Md Minhazul Haque'
 author = 'Md Minhazul Haque'
 
 extensions = [
