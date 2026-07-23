@@ -53,6 +53,24 @@ Tag Instances
 
    aws ec2 create-tags --resources i-0f112d652ecf13dac --tags Key=environment,Value=prod
 
+Allocate an Elastic IP
+-----------------------
+
+.. code:: bash
+
+   aws ec2 allocate-address | jq -r '.PublicIp+" "+.AllocationId'
+
+.. code:: ini
+
+   35.72.64.223  eipalloc-0f112d652ecf13dac
+
+Release an Elastic IP
+-----------------------
+
+.. code:: bash
+
+   aws ec2 release-address --allocation-id eipalloc-0f112d652ecf13dac
+
 List VPCs with CIDR IP Block
 ----------------------------
 

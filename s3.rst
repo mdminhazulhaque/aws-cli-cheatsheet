@@ -77,6 +77,17 @@ Delete an S3 Object
 
    delete: s3://my-awesome-new-bucket/secret-file.gz
 
+Move/Rename an S3 Object
+-------------------------
+
+.. code:: bash
+
+   aws s3 mv s3://my-awesome-new-bucket/secret-file.gz s3://my-awesome-new-bucket/archive/secret-file.gz
+
+.. code:: ini
+
+   move: s3://my-awesome-new-bucket/secret-file.gz to s3://my-awesome-new-bucket/archive/secret-file.gz
+
 Download Bucket to Local
 ------------------------
 

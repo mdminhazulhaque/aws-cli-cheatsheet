@@ -9,7 +9,6 @@ Visit [aws-cli-cheatsheet.mdminhazulhaque.io](https://aws-cli-cheatsheet.mdminha
 Chapters to add:
 
 - [ ] account
-- [ ] acm
 - [ ] aiops
 - [ ] backup
 - [ ] billing

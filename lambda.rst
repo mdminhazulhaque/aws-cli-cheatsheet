@@ -69,3 +69,17 @@ Download Lambda Code
 
    https://awslambda-ap-se-1-tasks.s3.ap-southeast-1.amazonaws.com/snapshots/987654321/backend-api-function-1fda0de7-a751-4586-bf64-5601a410c170
 
+Invoke a Lambda Function
+-------------------------
+
+.. code:: bash
+
+   aws lambda invoke --function-name my-app-production --payload '{"key": "value"}' response.json
+
+.. code:: ini
+
+   {
+       "StatusCode": 200,
+       "ExecutedVersion": "$LATEST"
+   }
+
