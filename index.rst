@@ -57,6 +57,8 @@ like the following. So you no longer need to pass ``--profile`` to
    elb
    iam
    lambda
+   lightsail
+   logs
    opensearch
    rds
    route53
